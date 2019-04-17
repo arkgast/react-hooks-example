@@ -1,7 +1,9 @@
 import React, { useReducer, useState } from "react";
 import uuid from "uuid";
 
-const initialTodos = [
+import { ITodo } from "./todo.interface";
+
+const initialTodos: ITodo[] = [
   {
     complete: true,
     id: uuid(),
@@ -19,6 +21,37 @@ const initialTodos = [
   }
 ];
 
+const todoReducer = (state: ITodo[], action: any) => {
+  switch (action.type) {
+    case "DO_TODO": {
+      return state.map(todo => {
+        if (todo.id === action.id) {
+          return { ...todo, complete: true };
+        }
+        return todo;
+      });
+    }
+    case "UNDO_TODO": {
+      return state.map(todo => {
+        if (todo.id === action.id) {
+          return { ...todo, complete: false };
+        }
+        return todo;
+      });
+    }
+    case "ADD_TODO": {
+      const todo: ITodo = {
+        complete: false,
+        id: uuid(),
+        task: action.task
+      };
+      return state.concat(todo);
+    }
+    default:
+      return state;
+  }
+};
+
 const filterReducer = (state: any, action: any) => {
   switch (action.type) {
     case "SHOW_ALL":
@@ -33,18 +66,18 @@ const filterReducer = (state: any, action: any) => {
 };
 
 const App = () => {
+  const [todos, dispatchTodos] = useReducer(todoReducer, initialTodos);
   const [filter, dispatchFilter] = useReducer(filterReducer, "ALL");
-  const [todos, setTodo] = useState(initialTodos);
   const [task, setTask] = useState("");
 
   const handleSubmit = (event: React.FormEvent) => {
     if (task) {
-      const todo = {
+      const todo: ITodo = {
         complete: false,
         id: uuid(),
         task
       };
-      setTodo(todos.concat(todo));
+      dispatchTodos({ type: "ADD_TODO", task });
     }
     setTask("");
     event.preventDefault();
@@ -54,15 +87,11 @@ const App = () => {
     setTask(event.target.value);
   };
 
-  const handleChangeCheckbox = (todoId: string) => () => {
-    setTodo(
-      todos.map(todo => {
-        if (todo.id === todoId) {
-          return { ...todo, complete: !todo.complete };
-        }
-        return todo;
-      })
-    );
+  const handleChangeCheckbox = (todo: ITodo) => () => {
+    dispatchTodos({
+      id: todo.id,
+      type: todo.complete ? "UNDO_TODO" : "DO_TODO"
+    });
   };
 
   const handleShowAll = () => {
@@ -107,7 +136,7 @@ const App = () => {
               <input
                 type="checkbox"
                 checked={todo.complete}
-                onChange={handleChangeCheckbox(todo.id)}
+                onChange={handleChangeCheckbox(todo)}
               />
               {todo.task}
             </label>
