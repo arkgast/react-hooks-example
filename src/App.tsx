@@ -4,7 +4,7 @@ import uuid from "uuid";
 import AddTodo from "./components/AddTodo";
 import Filter from "./components/Filter";
 import TodoList from "./components/TodoList";
-import TodoContext from "./context";
+import DispatchContext from "./context";
 import ITodo from "./interfaces/todo";
 import filterReducer from "./reducers/filter";
 import todoReducer from "./reducers/todo";
@@ -35,12 +35,15 @@ const App = () => {
 
   const filteredTodos = getFilteredTodos(todos, filter);
 
+  const dispatch = (action: any) =>
+    [dispatchTodos, dispatchFilter].forEach(fn => fn(action));
+
   return (
-    <TodoContext.Provider value={dispatchTodos}>
-      <Filter dispatch={dispatchFilter} />
+    <DispatchContext.Provider value={dispatch}>
+      <Filter />
       <TodoList todos={filteredTodos} />
       <AddTodo />
-    </TodoContext.Provider>
+    </DispatchContext.Provider>
   );
 };
 

@@ -1,6 +1,6 @@
 import React, { useContext, useReducer } from "react";
 
-import TodoContext from "../context";
+import DispatchContext from "../context";
 import ITodo from "../interfaces/todo";
 
 interface ITodoItemProps {
@@ -12,7 +12,7 @@ interface ITodoListProps {
 }
 
 const TodoItem: React.SFC<ITodoItemProps> = ({ todo }) => {
-  const dispatch = useContext(TodoContext);
+  const dispatch = useContext(DispatchContext);
 
   const handleChange = (currentTodo: ITodo) => () => {
     dispatch({

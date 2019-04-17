@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
 import uuid from "uuid";
 
-import TodoContext from "../context";
+import DispatchContext from "../context";
 
 const AddTodo: React.SFC = () => {
-  const dispatch = useContext(TodoContext);
+  const dispatch = useContext(DispatchContext);
   const [task, setTask] = useState("");
 
   const handleSubmit = (event: React.FormEvent) => {

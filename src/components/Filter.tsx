@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 
-interface IProps {
-  dispatch(obj: any): void;
-}
+import DispatchContext from "../context";
 
-const Filter: React.SFC<IProps> = ({ dispatch }) => {
+const Filter: React.SFC = () => {
+  const dispatch = useContext(DispatchContext);
+
   const handleShowAll = () => {
     dispatch({ type: "SHOW_ALL" });
   };

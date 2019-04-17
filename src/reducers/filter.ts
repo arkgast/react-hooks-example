@@ -1,5 +1,3 @@
-import ITodo from "../interfaces/todo";
-
 const filterReducer = (state: any, action: any) => {
   switch (action.type) {
     case "SHOW_ALL":
@@ -9,7 +7,7 @@ const filterReducer = (state: any, action: any) => {
     case "SHOW_INCOMPLETE":
       return "INCOMPLETE";
     default:
-      throw new Error();
+      return state;
   }
 };
 
