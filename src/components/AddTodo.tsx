@@ -1,24 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import uuid from "uuid";
 
-import ITodo from "../interfaces/todo";
+import TodoContext from "../context";
 
-interface IProps {
-  dispatch(obj: any): void;
-}
-
-const AddTodo: React.SFC<IProps> = ({ dispatch }) => {
+const AddTodo: React.SFC = () => {
+  const dispatch = useContext(TodoContext);
   const [task, setTask] = useState("");
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (task) {
-      const todo: ITodo = {
-        complete: false,
-        id: uuid(),
-        task
-      };
       dispatch({ type: "ADD_TODO", task });
     }
 

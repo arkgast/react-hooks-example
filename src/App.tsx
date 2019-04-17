@@ -4,17 +4,15 @@ import uuid from "uuid";
 import AddTodo from "./components/AddTodo";
 import Filter from "./components/Filter";
 import TodoList from "./components/TodoList";
+import TodoContext from "./context";
 import ITodo from "./interfaces/todo";
 import filterReducer from "./reducers/filter";
 import todoReducer from "./reducers/todo";
 
 const initialTodos: ITodo[] = [];
 
-const App = () => {
-  const [todos, dispatchTodos] = useReducer(todoReducer, initialTodos);
-  const [filter, dispatchFilter] = useReducer(filterReducer, "ALL");
-
-  const filteredTodos = todos.filter(todo => {
+const getFilteredTodos = (todos: ITodo[], filter: string) => {
+  return todos.filter(todo => {
     if (filter === "ALL") {
       return true;
     }
@@ -29,13 +27,20 @@ const App = () => {
 
     return false;
   });
+};
+
+const App = () => {
+  const [todos, dispatchTodos] = useReducer(todoReducer, initialTodos);
+  const [filter, dispatchFilter] = useReducer(filterReducer, "ALL");
+
+  const filteredTodos = getFilteredTodos(todos, filter);
 
   return (
-    <div>
+    <TodoContext.Provider value={dispatchTodos}>
       <Filter dispatch={dispatchFilter} />
-      <TodoList todos={filteredTodos} dispatch={dispatchTodos} />
-      <AddTodo dispatch={dispatchTodos} />
-    </div>
+      <TodoList todos={filteredTodos} />
+      <AddTodo />
+    </TodoContext.Provider>
   );
 };
 

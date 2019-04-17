@@ -1,18 +1,19 @@
-import React, { useReducer } from "react";
+import React, { useContext, useReducer } from "react";
 
+import TodoContext from "../context";
 import ITodo from "../interfaces/todo";
 
 interface ITodoItemProps {
   todo: ITodo;
-  dispatch(obj: any): void;
 }
 
 interface ITodoListProps {
   todos: ITodo[];
-  dispatch(obj: any): void;
 }
 
-const TodoItem: React.SFC<ITodoItemProps> = ({ dispatch, todo }) => {
+const TodoItem: React.SFC<ITodoItemProps> = ({ todo }) => {
+  const dispatch = useContext(TodoContext);
+
   const handleChange = (currentTodo: ITodo) => () => {
     dispatch({
       id: currentTodo.id,
@@ -34,11 +35,11 @@ const TodoItem: React.SFC<ITodoItemProps> = ({ dispatch, todo }) => {
   );
 };
 
-const TodoList: React.SFC<ITodoListProps> = ({ dispatch, todos }) => {
+const TodoList: React.SFC<ITodoListProps> = ({ todos }) => {
   return (
     <ul>
       {todos.map(todo => (
-        <TodoItem key={todo.id} dispatch={dispatch} todo={todo} />
+        <TodoItem key={todo.id} todo={todo} />
       ))}
     </ul>
   );
