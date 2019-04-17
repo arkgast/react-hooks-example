@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/arkgast/react-hooks-example/compare/v0.2.0...v0.3.0) (2019-04-17)
+
+
+### Features
+
+* filter todos among states ([8406ba3](https://github.com/arkgast/react-hooks-example/commit/8406ba3))
+* use reducer to manage todo states ([b27a838](https://github.com/arkgast/react-hooks-example/commit/b27a838))
+
+
+
 <a name="0.2.0"></a>
 # 0.2.0 (2019-04-17)
 
