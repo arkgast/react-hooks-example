@@ -38,13 +38,25 @@ const App = () => {
     setTask(event.target.value)
   }
 
+  const handleChangeCheckbox = (todoId: string) => {
+    setTodo(todos.map(todo => {
+      if (todo.id === todoId) {
+        return { ...todo, complete: !todo.complete }
+      }
+      return todo
+    }))
+  }
+
   return (
     <div>
       <ul>
         {todos.map(todo => (
-        <li key={todo.id}>
-          <label>{todo.task}</label>
-        </li>
+          <li key={todo.id}>
+            <label>
+              <input type='checkbox' checked={todo.complete} onChange={() => handleChangeCheckbox(todo.id)} />
+              {todo.task}
+            </label>
+          </li>
         ))}
       </ul>
       <form onSubmit={handleSubmit}>
